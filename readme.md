@@ -119,6 +119,10 @@ docker compose up -d
 yarn test:portador
 yarn test:conta
 yarn test:transacao
+
+# Ou rodar via script unico
+yarn test:all
+
 ```
 
 ---
@@ -136,7 +140,13 @@ yarn start:conta:dev
 
 # Porta 3002
 yarn start:transacao:dev
+
+# Ou rodar via script unico
+yarn start:all
 ```
+
+
+
 
 ---
 
