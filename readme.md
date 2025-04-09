@@ -7,6 +7,8 @@
 > - Equipe envolvida
 > - Complexidade do domínio
 
+> O projeto foi desenvolvido prioritariamente em português devido à natureza do domínio, que envolve o gerenciamento de contas digitais e transações financeiras. Evita-se forçar traduções não consistentes, garantindo que os termos utilizados sejam mais claros e compreensíveis dentro do contexto financeiro.
+
 ### Tecnologias e Padrões Utilizados
 
 - NEST
