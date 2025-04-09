@@ -9,6 +9,10 @@
 
 > O projeto foi desenvolvido prioritariamente em português devido à natureza do domínio, que envolve o gerenciamento de contas digitais e transações financeiras. Evita-se forçar traduções não consistentes, garantindo que os termos utilizados sejam mais claros e compreensíveis dentro do contexto financeiro.
 
+## Diagrama de Arquitetura
+
+![Diagrama de Arquitetura](./diagrama.png)
+
 ### Tecnologias e Padrões Utilizados
 
 - NEST
@@ -21,6 +25,7 @@
 - DDD
 - Docker Compose
 - Swagger
+- Health Check
 
 ### Observações
 
@@ -162,8 +167,4 @@ Após subir os microsserviços, acesse no navegador:
 | Transação     | 3002  | http://localhost:3002/swagger   |
 
 > Use o Swagger para testar todos os endpoints públicos e acompanhar os fluxos de criação de portador, conta e transações.
-
-
-
-
 
