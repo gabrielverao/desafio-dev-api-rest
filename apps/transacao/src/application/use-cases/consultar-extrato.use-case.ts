@@ -21,7 +21,7 @@ export class ConsultarExtratoUseCase {
             const cpfLimpo = cpf.replace(/\D/g, '');
 
             const resultados = await this.extratoModel.find({
-                cpfLimpo,
+                cpf: cpfLimpo,
                 realizadaEm: {
                     $gte: inicio,
                     $lte: fim,
@@ -30,7 +30,7 @@ export class ConsultarExtratoUseCase {
 
             this.logger.info('Extrato recuperado com sucesso', {
                 total: resultados.length,
-                cpfLimpo,
+                cpf: cpfLimpo,
             });
 
             return plainToInstance(TransacaoResponseDto, resultados, {
