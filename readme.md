@@ -94,7 +94,6 @@ Antes de começar, você precisa ter instalado:
 
 ```bash
 git clone https://github.com/gabrielverao/desafio-dev-api-rest
-cd dock-desafio
 ```
 
 ---
