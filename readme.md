@@ -90,7 +90,7 @@ Antes de começar, você precisa ter instalado:
 ### 📦 1. Clonar o projeto
 
 ```bash
-git clone https://github.com/gabrielverao/dock-desafio.git
+git clone https://github.com/gabrielverao/desafio-dev-api-rest
 cd dock-desafio
 ```
 
