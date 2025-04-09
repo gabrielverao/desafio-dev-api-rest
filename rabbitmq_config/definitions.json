@@ -1,0 +1,143 @@
+{
+  "users": [
+    {
+      "name": "admin",
+      "password": "admin",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "admin",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "portador.exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true
+    },
+    {
+      "name": "conta.exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true
+    },
+    {
+      "name": "conta.dlq",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true
+    },
+    {
+      "name": "transacao.exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true
+    },
+    {
+      "name": "transacao.dlq",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true
+    }
+  ],
+  "queues": [
+    {
+      "name": "conta.portador-criado",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "conta.dlq",
+        "x-dead-letter-routing-key": "conta.dlq.criado"
+      }
+    },
+    {
+      "name": "conta.portador-criado.dlq",
+      "vhost": "/",
+      "durable": true
+    },
+    {
+      "name": "conta.transacao-criada",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "conta.dlq",
+        "x-dead-letter-routing-key": "conta.dlq.transacao"
+      }
+    },
+    {
+      "name": "conta.transacao-criada.dlq",
+      "vhost": "/",
+      "durable": true
+    },
+    {
+      "name": "transacao.projection.extrato-criado",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "transacao.dlq",
+        "x-dead-letter-routing-key": "transacao.dlq.extrato"
+      }
+    },
+    {
+      "name": "transacao.projection.extrato-criado.dlq",
+      "vhost": "/",
+      "durable": true
+    }
+  ],
+  "bindings": [
+    {
+      "source": "portador.exchange",
+      "vhost": "/",
+      "destination": "conta.portador-criado",
+      "destination_type": "queue",
+      "routing_key": "portador.criado"
+    },
+    {
+      "source": "conta.dlq",
+      "vhost": "/",
+      "destination": "conta.portador-criado.dlq",
+      "destination_type": "queue",
+      "routing_key": "conta.dlq.criado"
+    },
+    {
+      "source": "transacao.exchange",
+      "vhost": "/",
+      "destination": "conta.transacao-criada",
+      "destination_type": "queue",
+      "routing_key": "transacao.criada"
+    },
+    {
+      "source": "conta.dlq",
+      "vhost": "/",
+      "destination": "conta.transacao-criada.dlq",
+      "destination_type": "queue",
+      "routing_key": "conta.dlq.transacao"
+    },
+    {
+      "source": "transacao.exchange",
+      "vhost": "/",
+      "destination": "transacao.projection.extrato-criado",
+      "destination_type": "queue",
+      "routing_key": "transacao.criada"
+    },
+    {
+      "source": "transacao.dlq",
+      "vhost": "/",
+      "destination": "transacao.projection.extrato-criado.dlq",
+      "destination_type": "queue",
+      "routing_key": "transacao.dlq.extrato"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build
+dist/
+build/
+.tmp/
+.temp/
+
+# TypeScript
+*.tsbuildinfo
+
+# Env
+.env
+.env.*  # mantém os .env locais fora do repositório
+
+# IDEs e editores
+.vscode/
+.idea/
+.history/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs
+logs/
+*.log
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Jest
+coverage/
+jest-coverage/
+
+# PM2
+pids/
+*.pid
+
+.cache/
+nx-report.html
+.project/
+
+.sonar/
+scannerwork/

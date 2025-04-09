@@ -1,0 +1,1 @@
+export const ICONTA_REPOSITORY = Symbol('IContaRepository');

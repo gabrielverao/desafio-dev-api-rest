@@ -1,0 +1,37 @@
+{
+  "monorepo": true,
+  "root": "apps",
+  "sourceRoot": "apps",
+  "compilerOptions": {
+    "deleteOutDir": true
+  },
+  "projects": {
+    "conta": {
+      "type": "application",
+      "root": "apps/conta",
+      "entryFile": "main",
+      "sourceRoot": "apps/conta/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/conta/tsconfig.app.json"
+      }
+    },
+    "portador": {
+      "type": "application",
+      "root": "apps/portador",
+      "entryFile": "main",
+      "sourceRoot": "apps/portador/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/portador/tsconfig.app.json"
+      }
+    },
+    "transacao": {
+      "type": "application",
+      "root": "apps/transacao",
+      "entryFile": "main",
+      "sourceRoot": "apps/transacao/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/transacao/tsconfig.app.json"
+      }
+    }
+  }
+}
