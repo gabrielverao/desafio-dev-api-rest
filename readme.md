@@ -66,8 +66,8 @@ Responsável pelas operações financeiras da conta digital.
 - Evento: transacao.criada
 - Emitido ao realizar uma transação (saque ou depósito).
 - Consumido por:
--- Conta: atualiza o saldo da conta correspondente.
--- Extrato: armazena a transação em uma coleção MongoDB para consulta futura.
+- - Conta: atualiza o saldo da conta correspondente.
+- - Extrato: armazena a transação em uma coleção MongoDB para consulta futura.
 
 -OBS: É simulado lançamento de eventos em todos use cases
 
