@@ -18,8 +18,10 @@ export class ConsultarExtratoUseCase {
         this.logger.info('Consultando extrato no MongoDB', { cpf, inicio, fim });
 
         try {
+            const cpfLimpo = cpf.replace(/\D/g, '');
+
             const resultados = await this.extratoModel.find({
-                cpf,
+                cpfLimpo,
                 realizadaEm: {
                     $gte: inicio,
                     $lte: fim,
@@ -28,7 +30,7 @@ export class ConsultarExtratoUseCase {
 
             this.logger.info('Extrato recuperado com sucesso', {
                 total: resultados.length,
-                cpf,
+                cpfLimpo,
             });
 
             return plainToInstance(TransacaoResponseDto, resultados, {
