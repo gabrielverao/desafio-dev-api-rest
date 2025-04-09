@@ -24,8 +24,7 @@
 
 ### Observações
 
-- Não foi implementado migrations automáticas para maior simplicidade.
-- Tratamento de Datas é especifico para cada sistema.
+- Não foi implementado migrations automáticas e tratamento de datas para maior simplicidade.
 - A validação de CPF é feita de forma simplificada, sem consulta complexa ou fontes externas.
 - Parâmetros sensíveis e de ambiente estão embutidos diretamente no código para facilitar testes locais. Em produção, esses dados seriam controlados por variáveis de ambiente (ENV) com segurança e versionamento apropriado.
 
