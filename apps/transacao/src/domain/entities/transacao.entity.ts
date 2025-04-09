@@ -17,9 +17,15 @@ export class Transacao {
             throw new DomainException(DomainErrors.VALOR_INVALIDO);
         }
 
+        const cpfLimpo = cpf.replace(/\D/g, '');
+
+        if (cpfLimpo.length !== 11) {
+            throw new DomainException(DomainErrors.CPF_INVALIDO);
+        }
+
         const id = crypto.randomUUID();
         const realizadaEm = new Date();
 
-        return new Transacao(id, cpf, valor, tipo, realizadaEm);
+        return new Transacao(id, cpfLimpo, valor, tipo, realizadaEm);
     }
 }
