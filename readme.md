@@ -1,50 +1,158 @@
-# Cenário
+# Desafio Dock - Conta Digital
 
-A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
-Nossa próxima missão é construir uma nova conta digital Dock para nossos clientes utilizarem através de endpoints, onde receberemos requisições em um novo backend que deverá gerenciar as contas e seus portadores (os donos das contas digitais).
+> Importante: esta aplicação foi desenvolvida com foco em avaliação técnica. Em um ambiente real, adotar uma arquitetura baseada em microsserviços requer análise criteriosa de diversos fatores como:
+> - Escalabilidade
+> - Custo de infraestrutura
+> - Quantidade de requisições por segundo
+> - Equipe envolvida
+> - Complexidade do domínio
 
-# Requisitos
+### Tecnologias e Padrões Utilizados
 
-- Deve ser possível criar e remover **portadores**
-    - Um **portador** deve conter apenas seu *nome completo* e *CPF*
-    - O *CPF* deve ser válido e único no cadastro de **portadores**
-- As **contas digital Dock** devem conter as seguintes funcionalidades:
-    - A conta deve ser criada utilizando o *CPF* do **portador**
-    - Uma conta deve ter seu *saldo*, *número* e *agência* disponíveis para consulta
-    - Necessário ter funcionalidade para fazer a *consulta de extrato* da conta *por período*
-    - Um **portador** pode fechar a **conta digital Dock** a qualquer instante
-    - Executar as operações de *saque* e *depósito*
-        - *Depósito* é liberado para todas as *contas ativas* e *desbloqueadas*
-        - *Saque* é permitido para todas as *contas ativas* e *desbloqueadas* desde que haja *saldo disponível* e não ultrapasse o limite diário de *2 mil reais*
+- NEST
+- TypeORM
+- RabbitMQ
+- PostgreSQL
+- MongoDb
+- Microsserviços (Monorepo)
+- Clean Arch
+- DDD
+- Docker Compose
+- Swagger
 
-## Regulação obrigatória
+### Observações
 
-- Precisamos *bloquear* e *desbloquear* a **conta digital Dock** a qualquer momento
-- A **conta digital Dock** nunca poderá ter o *saldo negativo*
+- Não implementei migrations automáticas para maior simplicidade.
+- A validação de CPF é feita de forma simplificada, sem consulta complexa ou fontes externas.
+- Parâmetros sensíveis e de ambiente estão embutidos diretamente no código para facilitar testes locais. Em produção, esses dados seriam controlados por variáveis de ambiente (ENV) com segurança e versionamento apropriado.
+
+## Microsserviços Disponíveis
+
+O projeto segue uma arquitetura baseada em microsserviços, onde cada domínio é isolado em seu próprio contexto, facilitando escalabilidade, testes e manutenção.
+
+### Portador (portador)
+Responsável pela gestão dos portadores da conta digital Dock.
+
+**Funcionalidades:**
+- Criar novo portador
+- Remover portador (soft delete)
+- Buscar portador por CPF
+
+### Conta (conta)
+Gerencia as contas digitais vinculadas aos portadores.
+
+**Funcionalidades:**
+- Criar conta com base no CPF do portador
+- Consultar dados da conta (número, agência, saldo)
+- Encerrar conta
+- Bloquear e desbloquear conta
+
+### Transação (transacao)
+Responsável pelas operações financeiras da conta digital.
+
+**Funcionalidades:**
+- Realizar depósito
+- Realizar saque
+
+### Comunicação assíncrona entre os Microsserviços
+
+- Evento: portador.criado
+- Emitido quando um novo portador é criado.
+- Consumido pelo microserviço conta, que cria automaticamente a conta vinculada ao CPF informado.
+
+- Evento: transacao.criada
+- Emitido ao realizar uma transação (saque ou depósito).
+- Consumido por:
+-- Conta: atualiza o saldo da conta correspondente.
+-- Extrato: armazena a transação em uma coleção MongoDB para consulta futura.
+
+-OBS: É simulado lançamento de eventos em todos use cases
+
+### Comunicação síncrona entre os Microsserviços
+
+- conta -> portador: Verifica se um CPF existe antes de criar a conta
+- transacao -> conta: Valida se a operação (saque ou depósito) pode ser realizada (saldo, bloqueio, limite diário)
 
 
-#  Orientações
+## Como Rodar o Projeto
 
-Utilize qualquer uma das linguagens de programação:
-- Java
-- Javascript
-- Typescript
-- Python
-- Kotlin
-- Golang
+### Pré-requisitos
 
-Desenvolva o case seguindo as melhores práticas que julgar necessário, aplique todos os conceitos, se atente a qualidade, utilize toda e qualquer forma de governança de código válido. Vamos considerar toda e qualquer implementação, trecho de código, documentação e/ou intenção compartilhada conosco. Esperamos também que o desafio seja feito dentro do tempo disponibilizado e que esteja condizente com a posição pretendida.
+Antes de começar, você precisa ter instalado:
 
-É necessário ter o desafio 100% funcional contendo informações e detalhes sobre: como iniciar a aplicação, interagir com as funcionalidades disponíveis e qualquer outro ponto adicional.
+- [Node.js](https://nodejs.org/) v18+
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/)
+- Git
 
-## Diferenciais
+---
 
-- Práticas, padrões e conceitos de microservices será considerado um diferencial para nós por existir uma variedade de produtos e serviços dentro da Dock.
-- Temos 100% das nossas aplicações e infraestrutura na nuvem, consideramos um diferencial, caso o desafio seja projeto para ser executado na nuvem.
-- Nossos times são autônomos e têm liberdade para definir arquiteturas e soluções. Por este motivo será considerado diferencial toda: arquitetura, design, paradigma e documentação detalhando a sua abordagem.
+### 📦 1. Clonar o projeto
 
-### Instruções
-      1. Faça o fork do desafio;
-      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador, os usuários informados no email pelo time de recrutameto ;
-      3. Após concluir seu trabalho faça um push; 
-      4. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
+```bash
+git clone https://github.com/gabrielverao/dock-desafio.git
+cd dock-desafio
+```
+
+---
+
+###  2. Instalar as dependências
+
+```bash
+yarn install
+```
+
+---
+
+###  3. Subir os containers (RabbitMQ, PostgreSQL e MongoDB)
+
+```bash
+docker compose up -d
+```
+
+---
+
+### 4. Rodar os testes unitários
+
+```bash
+# Testes por microsserviço
+yarn test:portador
+yarn test:conta
+yarn test:transacao
+```
+
+---
+
+###  5. Rodar os microsserviços em modo dev
+
+```bash
+# Em terminais separados ou com ferramentas como tmux/VSCode split
+
+# Porta 3000
+yarn start:portador:dev
+
+# Porta 3001
+yarn start:conta:dev
+
+# Porta 3002
+yarn start:transacao:dev
+```
+
+---
+
+###  6. Acessar documentação Swagger
+
+Após subir os microsserviços, acesse no navegador:
+
+| Microsserviço | Porta | Swagger URL                     |
+|---------------|-------|----------------------------------|
+| Portador      | 3000  | http://localhost:3000/swagger   |
+| Conta         | 3001  | http://localhost:3001/swagger   |
+| Transação     | 3002  | http://localhost:3002/swagger   |
+
+> Use o Swagger para testar todos os endpoints públicos e acompanhar os fluxos de criação de portador, conta e transações.
+
+
+
+
+
